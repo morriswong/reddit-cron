@@ -1,0 +1,458 @@
+Reddit r/macapps - 2025-07-31
+============================================================
+
+============================================================
+POST #1: Dory - An app switcher for people who can’t remember shortcuts - 1.2.0 is out! [promo codes giveaway]
+============================================================
+Author: u/segevs
+Score: 264 | Comments: 280
+Posted: 2025-07-29 16:24
+Link: https://reddit.com/r/macapps/comments/1mcedlm/dory_an_app_switcher_for_people_who_cant_remember/
+
+CONTENT:
+Hey everyone! As always, the support and feedback from this amazing community have been incredible and continue to motivate me to make Dory even better.
+
+Similar to last time, as a small token of appreciation, upvote and leave a comment below, and I’ll randomly share promo codes while supplies last.
+
+The new version includes many bug fixes, various improvements, and the #1 most requested feature: You can now trigger Dory using a global shortcut - no more needing to hold a modifier key!
+
+The new ...
+
+============================================================
+POST #2: Brilliant is now free
+============================================================
+Author: u/amantinband
+Score: 387 | Comments: 103
+Posted: 2025-07-29 13:03
+Link: https://reddit.com/r/macapps/comments/1mc9kaz/brilliant_is_now_free/
+
+CONTENT:
+# Yep, as the title says - Brilliant is now completely free.
+
+For those who don't know, Brilliant is extremely powerful and can be used for screen annotation, prototyping, brainstorming and much more.
+
+Here's a tutorial on how to use Brilliant as a screen annotator to get you started:  
+https://www.youtube.com/watch?v=593b8tXQdbo
+
+And here's the link to Brilliant's documentation which includes everything from installation to customization: brilliant.design/docs
+
+# Wait, how is it free? Are you m...
+
+============================================================
+POST #3: [Giveaway] We’re giving away 50 Lifetime Licenses to celebrate FocuSee’s update yet! Screen Recorder with Auto Zoom For Content Creators, Indie Makers, Educators, SaaS Marketers...
+============================================================
+Author: u/morgankung
+Score: 36 | Comments: 96
+Posted: 2025-07-31 02:35
+Link: https://reddit.com/r/macapps/comments/1mdoond/giveaway_were_giving_away_50_lifetime_licenses_to/
+
+CONTENT:
+Hi r/macapps community!
+
+We’re the team behind FocuSee – a screen recorder with auto zoom that helps turn your screen recordings into eye-catching videos automatically.
+
+Over the past few months, we’ve seen quite a few users here in r/macapps recommending or discussing FocuSee — and we’re incredibly grateful for your support. Your feedback has directly shaped this latest version, and we’re excited to show you what’s new.
+
+Some highlights from the latest update:
+
+Cloud Sharing: Publish your video...
+
+============================================================
+POST #4: DevHub v1.39 is out — now with a new JWT parser and improved sidebar settings, continuing to deliver a secure, offline toolkit for developers.
+============================================================
+Author: u/wcjiang
+Score: 36 | Comments: 12
+Posted: 2025-07-30 19:05
+Link: https://reddit.com/r/macapps/comments/1mddsqm/devhub_v139_is_out_now_with_a_new_jwt_parser_and/
+
+CONTENT:
+A feature-rich offline application, carefully crafted to support developers' daily tasks and ensure the highest security for their data.
+
+📥 https://apps.apple.com/app/devhub/id6476452351  
+💬 https://github.com/jaywcjlove/DevHub  
+
+============================================================
+POST #5: How often do you copy-paste text to ChatGPT/Claude for writing help? Getting tired of the workflow...
+============================================================
+Author: u/ExpressionFuzzy4972
+Score: 3 | Comments: 3
+Posted: 2025-07-31 07:44
+Link: https://reddit.com/r/macapps/comments/1mdugd9/how_often_do_you_copypaste_text_to_chatgptclaude/
+
+CONTENT:
+Just curious what frustrates people most about the actual mechanics of writing on computers.
+
+I've been noticing I do this workflow constantly while writing:
+
+1. Write something in Email/Slack/Forms
+2. Think "hmm, this could be better"
+3. Copy text → Switch to ChatGPT → Paste → Get suggestion → Copy → Switch back → Paste
+4. Repeat few times per day
+
+Quick questions:
+
+* How often do you use AI tools (ChatGPT, Claude, etc.) to improve your writing?
+* Would you use a Mac app that let you select tex...
+
+============================================================
+POST #6: tetrify - Message yourself notes &amp; get reminders! Private &amp; offline-first.
+============================================================
+Author: u/tetr-community
+Score: 13 | Comments: 8
+Posted: 2025-07-30 22:13
+Link: https://reddit.com/r/macapps/comments/1mdip48/tetrify_message_yourself_notes_get_reminders/
+
+CONTENT:
+[Link/Image Post - URL: https://www.reddit.com/gallery/1mdip48]
+
+============================================================
+POST #7: Open-Source Whisper Flow Alternative: Privacy-First Local Speech-to-Text for macOS
+============================================================
+Author: u/liam_adsr
+Score: 13 | Comments: 10
+Posted: 2025-07-30 19:03
+Link: https://reddit.com/r/macapps/comments/1mddrjl/opensource_whisper_flow_alternative_privacyfirst/
+
+CONTENT:
+[Link/Image Post - URL: /r/OpenSourceeAI/comments/1mdco4y/opensource_whisper_flow_alternative_privacyfirst/]
+
+============================================================
+POST #8: Is ProNotes still a thing?
+============================================================
+Author: u/Kevin_Cossaboon
+Score: 14 | Comments: 8
+Posted: 2025-07-30 16:41
+Link: https://reddit.com/r/macapps/comments/1md9ydl/is_pronotes_still_a_thing/
+
+CONTENT:
+Like what ProNotes looks like, but can not get the system to send me an email to download. 
+
+Anyone know if it still an active app?
+
+============================================================
+POST #9: I got tired of losing my place in long ChatGPT chats, so I built a fix for Safari
+============================================================
+Author: u/Standard-Band-102
+Score: 2 | Comments: 1
+Posted: 2025-07-31 01:01
+Link: https://reddit.com/r/macapps/comments/1mdmp2g/i_got_tired_of_losing_my_place_in_long_chatgpt/
+
+CONTENT:
+This was bugging me for months. I’d be reading a long ChatGPT convo or technical doc, scroll down a bit, and then realize I needed to refer to something earlier…
+Cue frantic scrolling and trying to guess where I was before.
+
+So I made a small Safari extension.
+You press ⌥ + number to drop a checkpoint.
+Then just press that number to jump back.
+Press it again to return to where you were.
+
+It’s super simple — no popups, no bloat. Just a fast way to mark your spot and bounce between sections.
+
+Here...
+
+============================================================
+POST #10: AirSync - The forbidden Android continuity for macOS [WIP]
+============================================================
+Author: u/sameera_s_w
+Score: 49 | Comments: 10
+Posted: 2025-07-30 09:19
+Link: https://reddit.com/r/macapps/comments/1md0yda/airsync_the_forbidden_android_continuity_for/
+
+CONTENT:
+[Link/Image Post - URL: https://www.reddit.com/gallery/1mccz44]
+
+============================================================
+POST #11: Best Mac app to remote control another Mac? Other than Jump?
+============================================================
+Author: u/tcolling
+Score: 1 | Comments: 4
+Posted: 2025-07-31 06:08
+Link: https://reddit.com/r/macapps/comments/1mdsuxm/best_mac_app_to_remote_control_another_mac_other/
+
+CONTENT:
+I have Jump installed on my two macbooks but it made a mess of the audio settings on one of them. 
+
+Is there a better choice?
+
+============================================================
+POST #12: DeskRest 1.12.0: Statistics dashboard shows your break habits over time
+============================================================
+Author: u/0xmarcel
+Score: 9 | Comments: 4
+Posted: 2025-07-30 17:18
+Link: https://reddit.com/r/macapps/comments/1mday0q/deskrest_1120_statistics_dashboard_shows_your/
+
+CONTENT:
+DeskRest helps you take healthy breaks throughout your workday, and now you can finally see if you're actually sticking to your routine or just fooling yourself. The new break analytics in 1.12.0 make healthy habits way more motivating.
+
+What's new:
+
+* Activity calendar showing your entire year of break habits at a glance. Color-coded days (green = crushing it, yellow = solid progress, orange = needs work)
+* Detailed dashboard with skip rates, streaks, and break distribution
+
+Seeing those green ...
+
+============================================================
+POST #13: I’m building a native macOS YouTube app
+============================================================
+Author: u/safak45x
+Score: 689 | Comments: 181
+Posted: 2025-07-29 15:35
+Link: https://reddit.com/r/macapps/comments/1mcd3h0/im_building_a_native_macos_youtube_app/
+
+CONTENT:
+I’ve spent over 100 hours on this. I’m new to coding, and my only dream is to make native macOS versions of the apps I use the most. For now, this is just the first showcase. Once it’s ready, I’ll release it as a free beta version for the community and keep it updated for a long time.
+
+
+
+I have a few questions out of curiosity. Is this legal? I’m trying to make an open-source app that doesn’t collect any user data and is safe to use. But I haven’t researched much — could YouTube sue me for this?...
+
+============================================================
+POST #14: I built WarpKey, a free and open-source hotkey manager to launch anything (Apps, Files, URLs, Scripts!). It's my first ever MacOS app.
+============================================================
+Author: u/MusaMatini
+Score: 91 | Comments: 54
+Posted: 2025-07-30 01:56
+Link: https://reddit.com/r/macapps/comments/1mcswoh/i_built_warpkey_a_free_and_opensource_hotkey/
+
+CONTENT:
+Hey r/macapps!
+
+I just finished building my first ever macOS app, and I'm honestly so proud of how it turned out.
+
+So, lemme tell you what is WarpKey?
+
+In short, it’s a supercharged launcher. You can use it to create custom keyboard shortcuts to instantly launch, hide, or run pretty much anything:
+
+* Apps (obviously)
+* Files &amp; Folders
+* URLs (open your favorite subreddit in a flash ;))
+* Shell Scripts (for all you terminal wizards)
+* macOS Shortcuts (from Apple's Shortcuts app)
+
+🚀 Download W...
+
+============================================================
+POST #15: Mac Window Management tool for standalone and clamshell mode
+============================================================
+Author: u/Jmantn
+Score: 2 | Comments: 4
+Posted: 2025-07-30 20:48
+Link: https://reddit.com/r/macapps/comments/1mdginb/mac_window_management_tool_for_standalone_and/
+
+CONTENT:
+I've seen a lot of these posts throughout the years but never really had a use for them in the past.   
+
+I now have a MacBook Pro and an external monitor and I looked for an application that would remember window size and position based on if the MacBook is Docked or not essentially.   
+
+I found Moom as it was still updated and seemed like it's layout feature was what I was looking for however I'm unsure if this is user error or maybe not the best app for me.
+
+I have created a layout for the Mac...
+
+============================================================
+POST #16: Canary mail - re-review
+============================================================
+Author: u/dziad_borowy
+Score: 9 | Comments: 16
+Posted: 2025-07-30 10:34
+Link: https://reddit.com/r/macapps/comments/1md23fy/canary_mail_rereview/
+
+CONTENT:
+This is a quick follow-up, with some appreciation to the Canary team, who care about their users! (which is rare these days).
+
+
+So 2 years ago I've posted a canary mail warning post.
+
+Since then, Canary team has reached out to me, discussed these issues, and they have been working hard to get them fixed, while improving the app overall and adding some cool features.
+
+Here's a quick &amp; high-level overview of the changes I've noticed since then:
+
+- App is stable. No freezing, no crashing!
+- Con...
+
+============================================================
+POST #17: An Application to Remap Hot Corners
+============================================================
+Author: u/pjasksyou
+Score: 3 | Comments: 1
+Posted: 2025-07-30 16:09
+Link: https://reddit.com/r/macapps/comments/1md94cc/an_application_to_remap_hot_corners/
+
+CONTENT:
+I want an application which can set my bottom left and right corners to switch virtual desktops, is there any application available which can do this for free. I think BetterTouchTool can do it but it's not free, so if something's available...
+
+============================================================
+POST #18: Continued journey looking for an open source notes app
+============================================================
+Author: u/RatherNerdy
+Score: 1 | Comments: 8
+Posted: 2025-07-30 21:43
+Link: https://reddit.com/r/macapps/comments/1mdhxmo/continued_journey_looking_for_an_open_source/
+
+CONTENT:
+I've been using Microsoft One Note forever, but looking for other options. 
+
+Requirements:
+
+\* Open source
+
+\* Flat file (notes exist as plain text/markdown in the file system)
+
+\* Sync (whether directly or through an external mechanism)
+
+\* Needs to work for work notes (organized directories) and meeting notes (daily journal)
+
+\* Tags/search
+
+  
+Things I've tried
+
+\* Joplin. I like Joplin, but it uses a database
+
+\* Logseq. On the fence, as it isn't as structured as I would like
+
+\* Zettlr. May...
+
+============================================================
+POST #19: I made a macOS utility that auto-pauses (and resumes) music and video when your microphone activates - for calls, recordings, or dictation
+============================================================
+Author: u/Shoddy_Performance11
+Score: 13 | Comments: 14
+Posted: 2025-07-30 07:28
+Link: https://reddit.com/r/macapps/comments/1mcz8lg/i_made_a_macos_utility_that_autopauses_and/
+
+CONTENT:
+I often listen to music on YouTube and have a lot of online meetings or use voice dictation throughout the day. I found myself constantly fumbling to find the right tab to pause - then doing it all over again to resume afterward. This was happening 10+ times a day every time I jumped into a quick call, recorded a voice note, or dictated something.
+
+So I built AutoPause - a tiny macOS menu bar app that automatically pauses your music and browser media whenever your mic is active (Google Meet, Sla...
+
+============================================================
+POST #20: Unwind with a soothing coloring experience paired with lofi and nature sounds.
+Perfect for stress relief and creative flow.
+============================================================
+Author: u/ArimaJain
+Score: 3 | Comments: 0
+Posted: 2025-07-30 15:03
+Link: https://reddit.com/r/macapps/comments/1md7gbo/unwind_with_a_soothing_coloring_experience_paired/
+
+CONTENT:
+Color Bloom is an adult coloring book app that blends creativity with relaxation. Enjoy beautiful illustrations while listening to soothing lofi beats and nature sounds that help you de-stress and recharge.
+
+============================================================
+POST #21: alttab for macos is super slow, is there anything faster?
+============================================================
+Author: u/Ornery_Criticism6480
+Score: 17 | Comments: 23
+Posted: 2025-07-30 05:29
+Link: https://reddit.com/r/macapps/comments/1mcx7rj/alttab_for_macos_is_super_slow_is_there_anything/
+
+CONTENT:
+this is to mimic the alt tab experience in windows. 
+
+============================================================
+POST #22: Built a simple time tracker for Mac — lives in the menu bar
+============================================================
+Author: u/Realistic-Ad-5923
+Score: 1 | Comments: 2
+Posted: 2025-07-30 19:27
+Link: https://reddit.com/r/macapps/comments/1mdee9o/built_a_simple_time_tracker_for_mac_lives_in_the/
+
+CONTENT:
+I was tired of bloated time trackers, so I made my own.
+It’s called Daily Grind. No signups, no sync, just:
+
+– menu bar timer
+– task + client tracking
+– hourly rate + CSV export
+– offline only
+
+Free to try. Would love feedback.
+
+
+
+============================================================
+POST #23: [After] I made a tiny Mac app to clean up my messy Desktop… and 171 people bought it.
+============================================================
+Author: u/infxmousrogue
+Score: 102 | Comments: 8
+Posted: 2025-07-29 15:42
+Link: https://reddit.com/r/macapps/comments/1mcd9sz/after_i_made_a_tiny_mac_app_to_clean_up_my_messy/
+
+CONTENT:
+Not gonna lie, I wasn’t expecting this.
+
+A few months ago I built a small app called Declutr. As my ADHD never lets me clean up my Mac properly and sort it neatly I made a simple app: pick a folder, hit a button, and it sorts everything by type.
+
+That’s literally it.
+
+I put it on Gumroad. No launch. Just a couple posts here and there.
+
+Today I checked stats for the first time in a while:
+
+* 171 sales
+* 2,839 views
+* $565.63 revenue
+
+It’s not life changing money. But for me, it's a win.  
+People ...
+
+============================================================
+POST #24: FREE macOS App: Instantly Access Recent Files, Folders, Clipboard &amp; More from Your Menu Bar
+============================================================
+Author: u/Ok-Organization5910
+Score: 29 | Comments: 32
+Posted: 2025-07-29 16:30
+Link: https://reddit.com/r/macapps/comments/1mcejc2/free_macos_app_instantly_access_recent_files/
+
+CONTENT:
+Hey Mac users! 👋
+
+We just launched Recento – Your Mac’s Instant Recents Access Tool and we’re excited to offer the FREE version to the community. If you're constantly digging through Finder to locate your recent files, folders, or copy-paste history — this is for YOU.
+
+🔹 What is Recento?  
+Recento is a lightweight macOS utility that lives in your menu bar and gives you instant access to your recent files, folders, clipboard history, and even apps – all with a slick UI and blazing-fast performanc...
+
+============================================================
+POST #25: HEVCut v2 – Compress large iCloud videos directly from your Mac. Smarter engine, better control, new UI
+============================================================
+Author: u/Comprehensive-Dig-31
+Score: 16 | Comments: 21
+Posted: 2025-07-29 19:50
+Link: https://reddit.com/r/macapps/comments/1mcjygy/hevcut_v2_compress_large_icloud_videos_directly/
+
+CONTENT:
+Hey Mac users 👋  
+Just released HEVCut v2, now available as a universal app for macOS and iOS. It helps you reclaim space by re-encoding large iCloud videos using HEVC, all locally from your Mac.
+
+# 💡 Why use HEVCut?
+
+If you’ve ever synced your Photos library to your Mac and wondered why it's pulling down hundreds of gigabytes in old video files… this app solves that.
+
+* Find and compress space-heavy videos in your iCloud Photo Library
+* Re-encode them losslessly using HEVC (H.265)
+* Preserve or...
+
+============================================================
+POST #26: How can someone who sucks at coding build an app?
+============================================================
+Author: u/gruntzgoo
+Score: 5 | Comments: 16
+Posted: 2025-07-30 01:57
+Link: https://reddit.com/r/macapps/comments/1mcsx13/how_can_someone_who_sucks_at_coding_build_an_app/
+
+CONTENT:
+I really love seeing how so many people are having a wonderful time sharing their passion projects and creating apps that they believe will be useful or fun, and it inspires me to want and try to get into it as well.
+
+The only difficulty I’m facing is that I’ve never really been great at learning and understanding coding, especially when it comes to iPhone or Mac apps. I’m just curious if there are easier ways to build and develop an app that doesn’t require having to do it all using code? Is th...
+
+============================================================
+POST #27: Clop not working?
+============================================================
+Author: u/nickccal
+Score: 5 | Comments: 8
+Posted: 2025-07-30 01:22
+Link: https://reddit.com/r/macapps/comments/1mcs6qt/clop_not_working/
+
+CONTENT:
+Hello there, I have been using Clop for a while and it’s been working great, but all of a sudden the past few weeks it stopped working on my Mac Studio. It still works on my MacBook Pro. I’ve not done anything different between the two machines, so I’m not sure why one Mac it works and the other it doesn’t. I’ve uninstalled it on both and set it up from scratch, and the same problem happens. Anyone else have this experience?
+
