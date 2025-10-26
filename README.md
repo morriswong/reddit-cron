@@ -119,17 +119,57 @@ The workflow includes:
 
 ## Troubleshooting
 
+### ⚠️ Reddit is Blocking Requests (Most Common Issue)
+
+**Symptoms:**
+- Both shell and Python methods fail
+- "Access denied" or empty responses
+- All retry attempts fail
+
+**Why it happens:**
+Reddit actively blocks automated scraping to prevent abuse and encourage API usage. They block:
+- Known data center IP ranges (including GitHub Actions)
+- Requests without proper authentication
+- High-frequency automated requests
+- Non-browser user agents
+
+**Solutions:**
+
+1. **Use Reddit's Official API** (Recommended for reliability)
+   - Create a Reddit app at https://www.reddit.com/prefs/apps
+   - Get OAuth credentials
+   - Update the scripts to use authenticated requests
+   - This is the most reliable long-term solution
+
+2. **Try Alternative Hosting**
+   - Consider using a service like Render, Railway, or Vercel
+   - Different hosting providers may have better success rates
+   - Some providers' IP ranges are less likely to be blocked
+
+3. **Accept Intermittent Failures**
+   - Reddit blocking is sometimes temporary
+   - The workflow will retry daily automatically
+   - Some days may succeed while others fail
+   - This is normal for unauthenticated git scraping
+
+4. **Use RSS Feeds** (Alternative approach)
+   - Reddit provides RSS feeds: `https://www.reddit.com/r/subreddit/.rss`
+   - Less rich data but more reliable
+   - May require modifying the collection scripts
+
 ### No Data Being Collected
 
 1. Check GitHub Actions logs in the "Actions" tab
-2. Verify Reddit's API is accessible (not blocking requests)
+2. Look for specific error messages in the workflow output
 3. Try the manual trigger to debug
+4. Check the workflow summary for helpful suggestions
 
 ### Workflow Not Running
 
 1. Ensure GitHub Actions is enabled for the repository
 2. Check repository permissions (workflow needs write access)
 3. Verify the schedule in `.github/workflows/reddit-cron.yml`
+4. Check if you've hit GitHub Actions usage limits
 
 ## Rate Limiting
 

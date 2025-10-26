@@ -27,7 +27,7 @@ jobs:
       run: |
         pip install -r requirements.txt
         sudo apt-get update
-        sudo apt-get install -y jq curl
+        sudo apt-get install -y jq curl wget
 
     - name: Download Reddit data (Shell script method)
       id: shell_method
@@ -39,6 +39,7 @@ jobs:
         TZ: UTC
 
     - name: Download Reddit data (Python fallback)
+      id: python_method
       if: steps.shell_method.outcome == 'failure'
       continue-on-error: true
       run: python collect_reddit_data.py
@@ -79,12 +80,29 @@ jobs:
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "- **Date**: $(date -u +%Y-%m-%d\ %H:%M:%S\ UTC)" >> $GITHUB_STEP_SUMMARY
         echo "- **Shell Method**: ${{ steps.shell_method.outcome }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Python Method**: ${{ steps.python_method.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
         echo "- **Data Collected**: ${{ steps.check_data.outputs.data_collected }}" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
 
         if [ "${{ steps.check_data.outputs.data_collected }}" = "true" ]; then
           echo "### ✓ Success - New data collected" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Recent files:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
           ls -lh data/*/*.json | tail -5 >> $GITHUB_STEP_SUMMARY || true
+          echo '```' >> $GITHUB_STEP_SUMMARY
         else
           echo "### ⚠ Warning - No new data collected" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Reddit may be blocking automated requests**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "This is common and expected. Reddit actively blocks:" >> $GITHUB_STEP_SUMMARY
+          echo "- GitHub Actions IP ranges" >> $GITHUB_STEP_SUMMARY
+          echo "- Automated scrapers" >> $GITHUB_STEP_SUMMARY
+          echo "- High-frequency requests" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Suggestions:**" >> $GITHUB_STEP_SUMMARY
+          echo "1. Try again tomorrow - blocking is sometimes temporary" >> $GITHUB_STEP_SUMMARY
+          echo "2. Consider using Reddit's official API with authentication" >> $GITHUB_STEP_SUMMARY
+          echo "3. Use a different data source or hosting platform" >> $GITHUB_STEP_SUMMARY
         fi
