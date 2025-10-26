@@ -29,8 +29,16 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y jq curl wget
 
-    - name: Download Reddit data (Shell script method)
+    - name: Download Reddit data (RSS method - Primary)
+      id: rss_method
+      continue-on-error: true
+      run: python collect_reddit_rss.py
+      env:
+        REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+
+    - name: Download Reddit data (Shell script fallback)
       id: shell_method
+      if: steps.rss_method.outcome == 'failure'
       continue-on-error: true
       run: |
         chmod +x fetch_reddit.sh
@@ -38,9 +46,9 @@ jobs:
       env:
         TZ: UTC
 
-    - name: Download Reddit data (Python fallback)
+    - name: Download Reddit data (Python JSON fallback)
       id: python_method
-      if: steps.shell_method.outcome == 'failure'
+      if: steps.rss_method.outcome == 'failure' && steps.shell_method.outcome == 'failure'
       continue-on-error: true
       run: python collect_reddit_data.py
       env:
@@ -79,13 +87,25 @@ jobs:
         echo "## Workflow Summary" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "- **Date**: $(date -u +%Y-%m-%d\ %H:%M:%S\ UTC)" >> $GITHUB_STEP_SUMMARY
-        echo "- **Shell Method**: ${{ steps.shell_method.outcome }}" >> $GITHUB_STEP_SUMMARY
-        echo "- **Python Method**: ${{ steps.python_method.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **RSS Method**: ${{ steps.rss_method.outcome }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Shell Method**: ${{ steps.shell_method.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Python JSON Method**: ${{ steps.python_method.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
         echo "- **Data Collected**: ${{ steps.check_data.outputs.data_collected }}" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
 
         if [ "${{ steps.check_data.outputs.data_collected }}" = "true" ]; then
           echo "### ✓ Success - New data collected" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Show which method succeeded
+          if [ "${{ steps.rss_method.outcome }}" = "success" ]; then
+            echo "**Method used: RSS Feeds** ✓ (Most reliable)" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ steps.shell_method.outcome }}" = "success" ]; then
+            echo "**Method used: Shell Script** (RSS failed, fallback worked)" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ steps.python_method.outcome }}" = "success" ]; then
+            echo "**Method used: Python JSON** (RSS and Shell failed, final fallback worked)" >> $GITHUB_STEP_SUMMARY
+          fi
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Recent files:" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
@@ -94,15 +114,21 @@ jobs:
         else
           echo "### ⚠ Warning - No new data collected" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Reddit may be blocking automated requests**" >> $GITHUB_STEP_SUMMARY
+          echo "**All methods failed - Reddit is blocking automated requests**" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "This is common and expected. Reddit actively blocks:" >> $GITHUB_STEP_SUMMARY
-          echo "- GitHub Actions IP ranges" >> $GITHUB_STEP_SUMMARY
-          echo "- Automated scrapers" >> $GITHUB_STEP_SUMMARY
-          echo "- High-frequency requests" >> $GITHUB_STEP_SUMMARY
+          echo "Tried:" >> $GITHUB_STEP_SUMMARY
+          echo "1. RSS feeds (old.reddit.com, www.reddit.com, reddit.com)" >> $GITHUB_STEP_SUMMARY
+          echo "2. Shell script with wget/curl" >> $GITHUB_STEP_SUMMARY
+          echo "3. Python JSON scraping" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Suggestions:**" >> $GITHUB_STEP_SUMMARY
-          echo "1. Try again tomorrow - blocking is sometimes temporary" >> $GITHUB_STEP_SUMMARY
-          echo "2. Consider using Reddit's official API with authentication" >> $GITHUB_STEP_SUMMARY
-          echo "3. Use a different data source or hosting platform" >> $GITHUB_STEP_SUMMARY
+          echo "**Why this happens:**" >> $GITHUB_STEP_SUMMARY
+          echo "Reddit actively blocks automated scraping to encourage API usage." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Recommendations:**" >> $GITHUB_STEP_SUMMARY
+          echo "1. **Use Reddit's Official API** (most reliable)" >> $GITHUB_STEP_SUMMARY
+          echo "   - Create app at https://www.reddit.com/prefs/apps" >> $GITHUB_STEP_SUMMARY
+          echo "   - Get OAuth credentials (free)" >> $GITHUB_STEP_SUMMARY
+          echo "   - Update scripts for authenticated access" >> $GITHUB_STEP_SUMMARY
+          echo "2. Try again tomorrow - blocking may be temporary" >> $GITHUB_STEP_SUMMARY
+          echo "3. Consider alternative hosting platforms" >> $GITHUB_STEP_SUMMARY
         fi

@@ -19,14 +19,15 @@ This repository automatically scrapes Reddit data daily and stores it as JSON fi
 reddit-cron/
 ├── .github/
 │   └── workflows/
-│       └── reddit-cron.yml      # GitHub Actions workflow
+│       └── reddit-cron.yml         # GitHub Actions workflow
 ├── data/
-│   └── macapps/                 # Data organized by subreddit
+│   └── macapps/                    # Data organized by subreddit
 │       ├── macapps_2025-10-26.json
-│       ├── macapps_2025-10-26_processed.json
 │       └── macapps_2025-10-26_readable.txt
-├── collect_reddit_data.py       # Python-based data collector
-├── fetch_reddit.sh              # Shell-based data collector
+├── collect_reddit_rss.py           # RSS-based collector (Primary)
+├── fetch_reddit.sh                 # Shell-based collector (Fallback)
+├── collect_reddit_data.py          # Python JSON collector (Final fallback)
+├── requirements.txt                # Python dependencies
 └── README.md
 ```
 
@@ -41,26 +42,45 @@ reddit-cron/
 
 ## Data Collection Methods
 
-### Method 1: Shell Script (Primary)
-- Simple curl-based fetching
+The system uses a **triple-fallback approach** to maximize reliability:
+
+### Method 1: RSS Feeds (Primary) ⭐ Recommended
+- **Script**: `collect_reddit_rss.py`
+- Uses Reddit's official RSS feeds
+- Most reliable and least likely to be blocked
+- Tries multiple endpoints: old.reddit.com, www.reddit.com, reddit.com
+- RSS feeds are designed for automated consumption
+- Converts RSS/XML to JSON format for consistency
+
+### Method 2: Shell Script (Fallback)
+- **Script**: `fetch_reddit.sh`
+- Simple curl/wget-based fetching
 - Fast and lightweight
+- Tries multiple Reddit JSON endpoints
 - Minimal dependencies
 
-### Method 2: Python Script (Fallback)
+### Method 3: Python JSON Scraping (Final Fallback)
+- **Script**: `collect_reddit_data.py`
 - More sophisticated with multiple approaches
 - Better error handling
+- Session management and cookie handling
 - Additional data processing
 
 ## Adding More Subreddits
 
-To collect data from additional subreddits:
+To collect data from additional subreddits, edit all three collection scripts:
 
-1. **Edit `fetch_reddit.sh`**:
+1. **Edit `collect_reddit_rss.py`** (Primary method):
+   ```python
+   subreddits = ['macapps', 'iosapps', 'androidapps']
+   ```
+
+2. **Edit `fetch_reddit.sh`** (Fallback):
    ```bash
    SUBREDDITS=("macapps" "iosapps" "androidapps")
    ```
 
-2. **Edit `collect_reddit_data.py`**:
+3. **Edit `collect_reddit_data.py`** (Final fallback):
    ```python
    subreddits = ['macapps', 'iosapps', 'androidapps']
    ```
@@ -69,13 +89,19 @@ To collect data from additional subreddits:
 
 ### Running Locally
 
+**RSS Method (Recommended):**
+```bash
+pip install requests
+python collect_reddit_rss.py
+```
+
 **Shell Script:**
 ```bash
 chmod +x fetch_reddit.sh
 ./fetch_reddit.sh
 ```
 
-**Python Script:**
+**Python JSON Method:**
 ```bash
 pip install requests
 python collect_reddit_data.py
@@ -119,23 +145,26 @@ The workflow includes:
 
 ## Troubleshooting
 
-### ⚠️ Reddit is Blocking Requests (Most Common Issue)
+### ⚠️ Reddit is Blocking Requests (Less Common with RSS)
 
 **Symptoms:**
-- Both shell and Python methods fail
+- All three methods (RSS, Shell, Python) fail
 - "Access denied" or empty responses
 - All retry attempts fail
 
 **Why it happens:**
-Reddit actively blocks automated scraping to prevent abuse and encourage API usage. They block:
+Reddit may block automated scraping, though RSS feeds are usually more reliable because they're officially supported. They may block:
 - Known data center IP ranges (including GitHub Actions)
 - Requests without proper authentication
 - High-frequency automated requests
 - Non-browser user agents
 
-**Solutions:**
+**Good News:**
+The RSS method (primary) is designed for automated consumption and has a much higher success rate than JSON scraping.
 
-1. **Use Reddit's Official API** (Recommended for reliability)
+**Solutions if RSS also fails:**
+
+1. **Use Reddit's Official API** (Recommended for 100% reliability)
    - Create a Reddit app at https://www.reddit.com/prefs/apps
    - Get OAuth credentials
    - Update the scripts to use authenticated requests
@@ -152,10 +181,10 @@ Reddit actively blocks automated scraping to prevent abuse and encourage API usa
    - Some days may succeed while others fail
    - This is normal for unauthenticated git scraping
 
-4. **Use RSS Feeds** (Alternative approach)
-   - Reddit provides RSS feeds: `https://www.reddit.com/r/subreddit/.rss`
-   - Less rich data but more reliable
-   - May require modifying the collection scripts
+4. **Try Different Timing**
+   - Sometimes blocking varies by time of day
+   - The workflow runs daily at 12:00 UTC
+   - You can manually trigger at different times to test
 
 ### No Data Being Collected
 
