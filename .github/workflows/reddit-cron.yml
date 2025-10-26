@@ -8,34 +8,83 @@ on:
 jobs:
   collect-reddit-data:
     runs-on: ubuntu-latest
-    
+    permissions:
+      contents: write  # Explicitly grant write permissions
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      
+      with:
+        fetch-depth: 0  # Fetch full history for better git operations
+
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-        
+        cache: 'pip'
+
     - name: Install dependencies
       run: |
         pip install requests
-        
-    - name: Download Reddit data
+        sudo apt-get update
+        sudo apt-get install -y jq curl
+
+    - name: Download Reddit data (Shell script method)
+      id: shell_method
+      continue-on-error: true
+      run: |
+        chmod +x fetch_reddit.sh
+        ./fetch_reddit.sh
+      env:
+        TZ: UTC
+
+    - name: Download Reddit data (Python fallback)
+      if: steps.shell_method.outcome == 'failure'
+      continue-on-error: true
       run: python collect_reddit_data.py
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
-        
-    - name: Commit and push changes
+
+    - name: Check if data was collected
+      id: check_data
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
+        if [ -n "$(find data -name "*.json" -mmin -10 2>/dev/null)" ]; then
+          echo "data_collected=true" >> $GITHUB_OUTPUT
+          echo "✓ New data files found"
+        else
+          echo "data_collected=false" >> $GITHUB_OUTPUT
+          echo "⚠ No new data files found"
+        fi
+
+    - name: Commit and push changes
+      if: steps.check_data.outputs.data_collected == 'true'
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
         git add data/
+
         if git diff --staged --quiet; then
           echo "No changes to commit"
         else
-          git commit -m "Update Reddit data $(date -u +%Y-%m-%d)"
+          git commit -m "📊 Update Reddit data - $(date -u +%Y-%m-%d)"
           git push
+          echo "✓ Changes committed and pushed successfully"
+        fi
+
+    - name: Workflow Summary
+      if: always()
+      run: |
+        echo "## Workflow Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "- **Date**: $(date -u +%Y-%m-%d\ %H:%M:%S\ UTC)" >> $GITHUB_STEP_SUMMARY
+        echo "- **Shell Method**: ${{ steps.shell_method.outcome }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Data Collected**: ${{ steps.check_data.outputs.data_collected }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+
+        if [ "${{ steps.check_data.outputs.data_collected }}" = "true" ]; then
+          echo "### ✓ Success - New data collected" >> $GITHUB_STEP_SUMMARY
+          ls -lh data/*/*.json | tail -5 >> $GITHUB_STEP_SUMMARY || true
+        else
+          echo "### ⚠ Warning - No new data collected" >> $GITHUB_STEP_SUMMARY
         fi
