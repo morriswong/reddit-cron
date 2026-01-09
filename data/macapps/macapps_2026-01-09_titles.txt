@@ -1,0 +1,25 @@
+Smart Ways to Pay Less for Mac Software
+Pesto Clipboard - Open Source Clipboard Manager
+Recommendations for an app that can set different audio outputs for different apps?
+Coco Alemana - A professional data editing tool for scientists and analytics
+Native Swift Invoice App
+[Beta users wanted:] Markdown PKM w/ local LLM, free transcription, &amp; web clipper
+Codex QR for macOS - Professional offline QR generator/scanner, no tracking, free trial
+EdaBoard - open source clipboard manager for macOS
+FSNotes
+Code signing Mac app - is LLC the only way to hide personal name?
+Introducing MacDown 3000 -- your favorite Markdown editor for macOS, continued!
+Keyzer v1.1 released, a native password manager that securely stores passwords as portable files.
+This app saved me a bunch of time
+Beta testers wanted: native iOS/iPadOS/macOS movie and TV app (TestFlight)
+scheduled caffeinated - wake up and keep alive
+TextSound Saver v3.2 is released, a local offline text-to-speech application.
+AI app for MacOS that sees your screen (Ask, Compose, Code)
+XPipe - A connection hub for all your servers
+Question regarding app development, do I need the apple developer subscriptioon $99/year to keep on using my app?
+Iconize Folder v3.3 is out! You can now easily customize folder colors and add small icons or text to manage your files more efficiently.
+Apple Notarization delays
+Does anyone else actually use Stage Manager, or is it just a glorified way to show you all the things you aren't doing?
+ShutterSlim - Uses AI to help clean out similar photos in Photos.app library
+Standardize Workflow Filename | Alfred Workflow
+CanaryMail vs. Spark
