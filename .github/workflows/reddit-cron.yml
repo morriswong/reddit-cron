@@ -29,16 +29,14 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y jq curl wget
 
-    - name: Download Reddit data (Simple RSS - Try First, No Auth)
-      id: simple_method
+    - name: Download Reddit data (Hybrid RSS+JSON - No Auth, Full Details!)
+      id: hybrid_method
       continue-on-error: true
-      run: |
-        chmod +x simple_fetch.sh
-        ./simple_fetch.sh
+      run: python collect_reddit_hybrid.py
 
-    - name: Download Reddit data (OAuth API - Most Reliable)
+    - name: Download Reddit data (OAuth API - 100% reliable fallback)
       id: oauth_method
-      if: steps.simple_method.outcome == 'failure'
+      if: steps.hybrid_method.outcome == 'failure'
       continue-on-error: true
       run: python collect_reddit_oauth.py
       env:
@@ -48,7 +46,7 @@ jobs:
 
     - name: Download Reddit data (RSS fallback)
       id: rss_method
-      if: steps.simple_method.outcome == 'failure' && steps.oauth_method.outcome == 'failure'
+      if: steps.hybrid_method.outcome == 'failure' && steps.oauth_method.outcome == 'failure'
       continue-on-error: true
       run: python collect_reddit_rss.py
       env:
@@ -56,7 +54,7 @@ jobs:
 
     - name: Download Reddit data (Shell script fallback)
       id: shell_method
-      if: steps.simple_method.outcome == 'failure' && steps.oauth_method.outcome == 'failure' && steps.rss_method.outcome == 'failure'
+      if: steps.hybrid_method.outcome == 'failure' && steps.oauth_method.outcome == 'failure' && steps.rss_method.outcome == 'failure'
       continue-on-error: true
       run: |
         chmod +x fetch_reddit.sh
@@ -66,7 +64,7 @@ jobs:
 
     - name: Download Reddit data (Python JSON final fallback)
       id: python_method
-      if: steps.simple_method.outcome == 'failure' && steps.oauth_method.outcome == 'failure' && steps.rss_method.outcome == 'failure' && steps.shell_method.outcome == 'failure'
+      if: steps.hybrid_method.outcome == 'failure' && steps.oauth_method.outcome == 'failure' && steps.rss_method.outcome == 'failure' && steps.shell_method.outcome == 'failure'
       continue-on-error: true
       run: python collect_reddit_data.py
       env:
@@ -106,7 +104,7 @@ jobs:
         echo "## Workflow Summary" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "- **Date**: $(date -u +%Y-%m-%d\ %H:%M:%S\ UTC)" >> $GITHUB_STEP_SUMMARY
-        echo "- **Simple RSS Method**: ${{ steps.simple_method.outcome }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Hybrid Method** (RSS→JSON): ${{ steps.hybrid_method.outcome }}" >> $GITHUB_STEP_SUMMARY
         echo "- **OAuth API Method**: ${{ steps.oauth_method.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
         echo "- **RSS Method**: ${{ steps.rss_method.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
         echo "- **Shell Method**: ${{ steps.shell_method.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
@@ -119,12 +117,14 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
 
           # Show which method succeeded
-          if [ "${{ steps.simple_method.outcome }}" = "success" ]; then
-            echo "**Method used: Simple RSS** 🎉 (No auth needed - it worked!)" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.hybrid_method.outcome }}" = "success" ]; then
+            echo "**Method used: Hybrid RSS+JSON** 🎉" >> $GITHUB_STEP_SUMMARY
+            echo "✓ No auth required!" >> $GITHUB_STEP_SUMMARY
+            echo "✓ Full details: upvotes, comments, sorted by popularity" >> $GITHUB_STEP_SUMMARY
           elif [ "${{ steps.oauth_method.outcome }}" = "success" ]; then
             echo "**Method used: OAuth API** 🎉 (100% reliable, official Reddit API)" >> $GITHUB_STEP_SUMMARY
           elif [ "${{ steps.rss_method.outcome }}" = "success" ]; then
-            echo "**Method used: RSS Feeds** ✓ (Simple/OAuth failed, RSS worked)" >> $GITHUB_STEP_SUMMARY
+            echo "**Method used: RSS Feeds** ✓ (Hybrid/OAuth failed, RSS worked)" >> $GITHUB_STEP_SUMMARY
           elif [ "${{ steps.shell_method.outcome }}" = "success" ]; then
             echo "**Method used: Shell Script** (OAuth/RSS failed, shell fallback worked)" >> $GITHUB_STEP_SUMMARY
           elif [ "${{ steps.python_method.outcome }}" = "success" ]; then
