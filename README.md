@@ -86,27 +86,24 @@ The system uses a **quad-fallback approach** to maximize reliability:
 
 ## Adding More Subreddits
 
-To collect data from additional subreddits, edit all collection scripts:
+**✨ Super Easy - Just edit `config.yml`!**
 
-1. **Edit `collect_reddit_oauth.py`** (OAuth method - line 237):
-   ```python
-   subreddits = ['macapps', 'iosapps', 'androidapps']
-   ```
+```yaml
+subreddits:
+  - macapps
+  - iosapps          # Add more by uncommenting
+  - androidapps      # or adding new lines
+  - programming
+```
 
-2. **Edit `collect_reddit_rss.py`** (RSS method - line 237):
-   ```python
-   subreddits = ['macapps', 'iosapps', 'androidapps']
-   ```
+**See [HOW_TO_ADD_SUBREDDITS.md](HOW_TO_ADD_SUBREDDITS.md) for detailed instructions!**
 
-3. **Edit `fetch_reddit.sh`** (Shell fallback - line 7):
-   ```bash
-   SUBREDDITS=("macapps" "iosapps" "androidapps")
-   ```
+### Quick Steps:
 
-4. **Edit `collect_reddit_data.py`** (Final fallback - line 265):
-   ```python
-   subreddits = ['macapps', 'iosapps', 'androidapps']
-   ```
+1. Open `config.yml`
+2. Add or remove subreddits (one per line with `-` prefix)
+3. Save and commit
+4. Done! The scraper automatically picks them up
 
 ## Manual Execution
 
