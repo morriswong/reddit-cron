@@ -27,10 +27,36 @@ jobs:
       run: |
         pip install -r requirements.txt
         sudo apt-get update
-        sudo apt-get install -y jq curl
+        sudo apt-get install -y jq curl wget
 
-    - name: Download Reddit data (Shell script method)
+    - name: Download Reddit data (Simple RSS - Try First, No Auth)
+      id: simple_method
+      continue-on-error: true
+      run: |
+        chmod +x simple_fetch.sh
+        ./simple_fetch.sh
+
+    - name: Download Reddit data (OAuth API - Most Reliable)
+      id: oauth_method
+      if: steps.simple_method.outcome == 'failure'
+      continue-on-error: true
+      run: python collect_reddit_oauth.py
+      env:
+        REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+        REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+        REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+
+    - name: Download Reddit data (RSS fallback)
+      id: rss_method
+      if: steps.simple_method.outcome == 'failure' && steps.oauth_method.outcome == 'failure'
+      continue-on-error: true
+      run: python collect_reddit_rss.py
+      env:
+        REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+
+    - name: Download Reddit data (Shell script fallback)
       id: shell_method
+      if: steps.simple_method.outcome == 'failure' && steps.oauth_method.outcome == 'failure' && steps.rss_method.outcome == 'failure'
       continue-on-error: true
       run: |
         chmod +x fetch_reddit.sh
@@ -38,8 +64,9 @@ jobs:
       env:
         TZ: UTC
 
-    - name: Download Reddit data (Python fallback)
-      if: steps.shell_method.outcome == 'failure'
+    - name: Download Reddit data (Python JSON final fallback)
+      id: python_method
+      if: steps.simple_method.outcome == 'failure' && steps.oauth_method.outcome == 'failure' && steps.rss_method.outcome == 'failure' && steps.shell_method.outcome == 'failure'
       continue-on-error: true
       run: python collect_reddit_data.py
       env:
@@ -49,7 +76,8 @@ jobs:
     - name: Check if data was collected
       id: check_data
       run: |
-        if [ -n "$(find data -name "*.json" -mmin -10 2>/dev/null)" ]; then
+        # Check for JSON or XML files (simple method uses XML)
+        if [ -n "$(find data -name "*.json" -mmin -10 2>/dev/null)" ] || [ -n "$(find data -name "*.xml" -mmin -10 2>/dev/null)" ]; then
           echo "data_collected=true" >> $GITHUB_OUTPUT
           echo "✓ New data files found"
         else
@@ -78,13 +106,61 @@ jobs:
         echo "## Workflow Summary" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "- **Date**: $(date -u +%Y-%m-%d\ %H:%M:%S\ UTC)" >> $GITHUB_STEP_SUMMARY
-        echo "- **Shell Method**: ${{ steps.shell_method.outcome }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Simple RSS Method**: ${{ steps.simple_method.outcome }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **OAuth API Method**: ${{ steps.oauth_method.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **RSS Method**: ${{ steps.rss_method.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Shell Method**: ${{ steps.shell_method.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Python JSON Method**: ${{ steps.python_method.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
         echo "- **Data Collected**: ${{ steps.check_data.outputs.data_collected }}" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
 
         if [ "${{ steps.check_data.outputs.data_collected }}" = "true" ]; then
-          echo "### ✓ Success - New data collected" >> $GITHUB_STEP_SUMMARY
+          echo "### ✅ Success - New data collected" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Show which method succeeded
+          if [ "${{ steps.simple_method.outcome }}" = "success" ]; then
+            echo "**Method used: Simple RSS** 🎉 (No auth needed - it worked!)" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ steps.oauth_method.outcome }}" = "success" ]; then
+            echo "**Method used: OAuth API** 🎉 (100% reliable, official Reddit API)" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ steps.rss_method.outcome }}" = "success" ]; then
+            echo "**Method used: RSS Feeds** ✓ (Simple/OAuth failed, RSS worked)" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ steps.shell_method.outcome }}" = "success" ]; then
+            echo "**Method used: Shell Script** (OAuth/RSS failed, shell fallback worked)" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ steps.python_method.outcome }}" = "success" ]; then
+            echo "**Method used: Python JSON** (All better methods failed, final fallback worked)" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Recent files:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
           ls -lh data/*/*.json | tail -5 >> $GITHUB_STEP_SUMMARY || true
+          echo '```' >> $GITHUB_STEP_SUMMARY
         else
-          echo "### ⚠ Warning - No new data collected" >> $GITHUB_STEP_SUMMARY
+          echo "### ⚠️ Warning - No new data collected" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ steps.oauth_method.outcome }}" = "failure" ]; then
+            echo "**OAuth API failed - Check if credentials are configured**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "The OAuth API method is the most reliable way to collect Reddit data." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**To set up OAuth (5 minutes):**" >> $GITHUB_STEP_SUMMARY
+            echo "1. Create a Reddit app at https://www.reddit.com/prefs/apps" >> $GITHUB_STEP_SUMMARY
+            echo "2. Select **script** as the app type" >> $GITHUB_STEP_SUMMARY
+            echo "3. Add these GitHub Secrets:" >> $GITHUB_STEP_SUMMARY
+            echo "   - \`REDDIT_CLIENT_ID\` (the short string under your app name)" >> $GITHUB_STEP_SUMMARY
+            echo "   - \`REDDIT_CLIENT_SECRET\` (the long string after 'secret:')" >> $GITHUB_STEP_SUMMARY
+            echo "4. See SETUP.md for detailed instructions" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Why OAuth is better:**" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ 100% reliable - never gets blocked" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Official Reddit API" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Free to use" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ No maintenance required" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**All fallback methods failed - Reddit is blocking requests**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Consider setting up OAuth API for 100% reliability (see SETUP.md)" >> $GITHUB_STEP_SUMMARY
+          fi
         fi

@@ -148,7 +148,12 @@ class RedditDataCollector:
     def _try_old_reddit(self, subreddit: str):
         """Approach 3: Try old.reddit.com which is sometimes less restrictive"""
         old_url = f'https://old.reddit.com/r/{subreddit}.json'
-        return self.session.get(old_url, timeout=30)
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'Accept': 'application/json, text/html, */*',
+            'Accept-Language': 'en-US,en;q=0.9',
+        }
+        return self.session.get(old_url, headers=headers, timeout=30)
         
     def process_posts(self, data: Dict, subreddit: str) -> List[Dict]:
         """Process Reddit posts and extract relevant information"""
