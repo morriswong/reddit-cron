@@ -19,6 +19,7 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 
 import requests
+import yaml
 
 
 class HybridRedditCollector:
@@ -219,10 +220,43 @@ class HybridRedditCollector:
         self.log(f"Saved TOP 10 to {top10_file}")
 
 
+def load_config():
+    """Load subreddits from config file"""
+    config_file = Path('config.yml')
+
+    if not config_file.exists():
+        print(f"⚠️  Config file not found: {config_file}")
+        print("Using default: ['macapps']")
+        return ['macapps']
+
+    try:
+        with open(config_file, 'r') as f:
+            config = yaml.safe_load(f)
+            subreddits = config.get('subreddits', ['macapps'])
+
+            # Filter out None values and empty strings
+            subreddits = [s for s in subreddits if s]
+
+            if not subreddits:
+                print("⚠️  No subreddits found in config, using default: ['macapps']")
+                return ['macapps']
+
+            return subreddits
+    except Exception as e:
+        print(f"⚠️  Error loading config: {e}")
+        print("Using default: ['macapps']")
+        return ['macapps']
+
+
 def main():
     collector = HybridRedditCollector()
 
-    subreddits = ['macapps']
+    # Load subreddits from config file
+    subreddits = load_config()
+    collector.log(f"📋 Loaded {len(subreddits)} subreddit(s) from config: {', '.join(subreddits)}")
+
+    success_count = 0
+    failed = []
 
     for subreddit in subreddits:
         posts = collector.collect_subreddit(subreddit)
@@ -230,9 +264,16 @@ def main():
         if posts:
             collector.save_data(subreddit, posts)
             collector.log(f"✅ Successfully collected r/{subreddit}")
+            success_count += 1
         else:
             collector.log(f"❌ Failed to collect r/{subreddit}", 'ERROR')
-            sys.exit(1)
+            failed.append(subreddit)
+
+    # Summary
+    collector.log(f"📊 Results: {success_count}/{len(subreddits)} successful")
+    if failed:
+        collector.log(f"❌ Failed: {', '.join(failed)}", 'ERROR')
+        sys.exit(1)
 
     collector.log("✅ All done!")
 

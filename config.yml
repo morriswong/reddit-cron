@@ -1,0 +1,25 @@
+# Reddit Scraper Configuration
+# Add or remove subreddits here - the scraper will automatically pick them up!
+
+subreddits:
+  - macapps          # Mac applications
+  # - iosapps        # iOS applications (uncomment to enable)
+  # - androidapps    # Android applications
+  # - programming    # Programming discussions
+  # - technology     # Tech news
+  # - webdev         # Web development
+  # - datascience    # Data science
+  # - machinelearning # ML discussions
+
+# You can add any subreddit by adding a new line:
+# Format:
+#   - subreddit_name
+
+# To enable a subreddit: Remove the '#' at the start of the line
+# To disable a subreddit: Add '#' at the start of the line (or delete the line)
+
+# Examples:
+# - AskReddit
+# - explainlikeimfive
+# - todayilearned
+# - science
